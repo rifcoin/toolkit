@@ -4,7 +4,7 @@
 [![Lint](https://github.com/rifcoin/toolkit/workflows/Lint/badge.svg)](https://github.com/rifcoin/toolkit/actions?query=workflow%3ALint)
 
 This repository contains the periphery smart contracts for the Rifcoin Swap Protocol.
-For the lower level core contracts, see the [uniswap-v3-core](https://github.com/rifcoin/swap)
+For the lower level core contracts, see the [swap](https://github.com/rifcoin/swap)
 repository.
 
 ## Local deployment
