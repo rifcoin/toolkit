@@ -2,7 +2,7 @@
 pragma solidity >=0.7.6;
 
 import '@openzeppelin/contracts/utils/Strings.sol';
-import '@uniswap/v3-core/contracts/libraries/BitMath.sol';
+import '@rifcoin/swap/libraries/BitMath.sol';
 import 'base64-sol/base64.sol';
 
 /// @title NFTSVG
@@ -355,7 +355,7 @@ library NFTSVG {
             tick = tick * -1;
             sign = '-';
         }
-        return string(abi.encodePacked(sign, uint256(tick).toString()));
+        return string(abi.encodePacked(sign, uint256(uint24(tick)).toString()));
     }
 
     function rangeLocation(int24 tickLower, int24 tickUpper) internal pure returns (string memory, string memory) {

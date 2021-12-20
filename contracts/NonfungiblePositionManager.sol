@@ -1,10 +1,10 @@
-// SPDX-License-Identifier: GPL-2.0-or-later
-pragma solidity =0.7.6;
-pragma abicoder v2;
+// SPDX-License-Identifier: MIT
+pragma solidity =0.8.6;
 
-import '@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol';
-import '@uniswap/v3-core/contracts/libraries/FixedPoint128.sol';
-import '@uniswap/v3-core/contracts/libraries/FullMath.sol';
+
+import '@rifcoin/swap/contracts/interfaces/IRifainSwap.sol';
+import '@rifcoin/swap/libraries/FixedPoint128.sol';
+import '@rifcoin/swap/libraries/FullMath.sol';
 
 import './interfaces/INonfungiblePositionManager.sol';
 import './interfaces/INonfungibleTokenPositionDescriptor.sol';
@@ -41,8 +41,8 @@ contract NonfungiblePositionManager is
         // the tick range of the position
         int24 tickLower;
         int24 tickUpper;
-        // the liquidity of the position
-        uint128 liquidity;
+        // the disponible of the position
+        uint128 disponible;
         // the fee growth of the aggregate position as of the last action on the individual position
         uint256 feeGrowthInside0LastX128;
         uint256 feeGrowthInside1LastX128;
@@ -89,7 +89,7 @@ contract NonfungiblePositionManager is
             uint24 fee,
             int24 tickLower,
             int24 tickUpper,
-            uint128 liquidity,
+            uint128 disponible,
             uint256 feeGrowthInside0LastX128,
             uint256 feeGrowthInside1LastX128,
             uint128 tokensOwed0,
@@ -107,7 +107,7 @@ contract NonfungiblePositionManager is
             poolKey.fee,
             position.tickLower,
             position.tickUpper,
-            position.liquidity,
+            position.disponible,
             position.feeGrowthInside0LastX128,
             position.feeGrowthInside1LastX128,
             position.tokensOwed0,
@@ -132,13 +132,13 @@ contract NonfungiblePositionManager is
         checkDeadline(params.deadline)
         returns (
             uint256 tokenId,
-            uint128 liquidity,
+            uint128 disponible,
             uint256 amount0,
             uint256 amount1
         )
     {
-        IUniswapV3Pool pool;
-        (liquidity, amount0, amount1, pool) = addLiquidity(
+        IRifainSwap pool;
+        (disponible, amount0, amount1, pool) = addLiquidity(
             AddLiquidityParams({
                 token0: params.token0,
                 token1: params.token1,
@@ -171,14 +171,14 @@ contract NonfungiblePositionManager is
             poolId: poolId,
             tickLower: params.tickLower,
             tickUpper: params.tickUpper,
-            liquidity: liquidity,
+            disponible: disponible,
             feeGrowthInside0LastX128: feeGrowthInside0LastX128,
             feeGrowthInside1LastX128: feeGrowthInside1LastX128,
             tokensOwed0: 0,
             tokensOwed1: 0
         });
 
-        emit IncreaseLiquidity(tokenId, liquidity, amount0, amount1);
+        emit IncreaseLiquidity(tokenId, disponible, amount0, amount1);
     }
 
     modifier isAuthorizedForToken(uint256 tokenId) {
@@ -192,7 +192,18 @@ contract NonfungiblePositionManager is
     }
 
     // save bytecode by removing implementation of unused method
-    function baseURI() public pure override returns (string memory) {}
+    function _baseURI() internal view override returns (string memory) {}
+
+    function tokenByIndex(uint256 index) external override  view returns (uint256) {
+
+    }
+
+    function tokenOfOwnerByIndex(address owner, uint256 index) external override view returns (uint256 tokenId) {
+
+    }
+    function totalSupply() external override view returns (uint256) {
+        
+    }
 
     /// @inheritdoc INonfungiblePositionManager
     function increaseLiquidity(IncreaseLiquidityParams calldata params)
@@ -201,7 +212,7 @@ contract NonfungiblePositionManager is
         override
         checkDeadline(params.deadline)
         returns (
-            uint128 liquidity,
+            uint128 disponible,
             uint256 amount0,
             uint256 amount1
         )
@@ -210,8 +221,8 @@ contract NonfungiblePositionManager is
 
         PoolAddress.PoolKey memory poolKey = _poolIdToPoolKey[position.poolId];
 
-        IUniswapV3Pool pool;
-        (liquidity, amount0, amount1, pool) = addLiquidity(
+        IRifainSwap pool;
+        (disponible, amount0, amount1, pool) = addLiquidity(
             AddLiquidityParams({
                 token0: poolKey.token0,
                 token1: poolKey.token1,
@@ -234,23 +245,23 @@ contract NonfungiblePositionManager is
         position.tokensOwed0 += uint128(
             FullMath.mulDiv(
                 feeGrowthInside0LastX128 - position.feeGrowthInside0LastX128,
-                position.liquidity,
+                position.disponible,
                 FixedPoint128.Q128
             )
         );
         position.tokensOwed1 += uint128(
             FullMath.mulDiv(
                 feeGrowthInside1LastX128 - position.feeGrowthInside1LastX128,
-                position.liquidity,
+                position.disponible,
                 FixedPoint128.Q128
             )
         );
 
         position.feeGrowthInside0LastX128 = feeGrowthInside0LastX128;
         position.feeGrowthInside1LastX128 = feeGrowthInside1LastX128;
-        position.liquidity += liquidity;
+        position.disponible += disponible;
 
-        emit IncreaseLiquidity(params.tokenId, liquidity, amount0, amount1);
+        emit IncreaseLiquidity(params.tokenId, disponible, amount0, amount1);
     }
 
     /// @inheritdoc INonfungiblePositionManager
@@ -262,15 +273,15 @@ contract NonfungiblePositionManager is
         checkDeadline(params.deadline)
         returns (uint256 amount0, uint256 amount1)
     {
-        require(params.liquidity > 0);
+        require(params.disponible > 0);
         Position storage position = _positions[params.tokenId];
 
-        uint128 positionLiquidity = position.liquidity;
-        require(positionLiquidity >= params.liquidity);
+        uint128 positionLiquidity = position.disponible;
+        require(positionLiquidity >= params.disponible);
 
         PoolAddress.PoolKey memory poolKey = _poolIdToPoolKey[position.poolId];
-        IUniswapV3Pool pool = IUniswapV3Pool(PoolAddress.computeAddress(factory, poolKey));
-        (amount0, amount1) = pool.burn(position.tickLower, position.tickUpper, params.liquidity);
+        IRifainSwap pool = IRifainSwap(PoolAddress.computeAddress(factory, poolKey));
+        (amount0, amount1) = pool.burn(position.tickLower, position.tickUpper, params.disponible);
 
         require(amount0 >= params.amount0Min && amount1 >= params.amount1Min, 'Price slippage check');
 
@@ -299,10 +310,10 @@ contract NonfungiblePositionManager is
 
         position.feeGrowthInside0LastX128 = feeGrowthInside0LastX128;
         position.feeGrowthInside1LastX128 = feeGrowthInside1LastX128;
-        // subtraction is safe because we checked positionLiquidity is gte params.liquidity
-        position.liquidity = positionLiquidity - params.liquidity;
+        // subtraction is safe because we checked positionLiquidity is gte params.disponible
+        position.disponible = positionLiquidity - params.disponible;
 
-        emit DecreaseLiquidity(params.tokenId, params.liquidity, amount0, amount1);
+        emit DecreaseLiquidity(params.tokenId, params.disponible, amount0, amount1);
     }
 
     /// @inheritdoc INonfungiblePositionManager
@@ -321,12 +332,12 @@ contract NonfungiblePositionManager is
 
         PoolAddress.PoolKey memory poolKey = _poolIdToPoolKey[position.poolId];
 
-        IUniswapV3Pool pool = IUniswapV3Pool(PoolAddress.computeAddress(factory, poolKey));
+        IRifainSwap pool = IRifainSwap(PoolAddress.computeAddress(factory, poolKey));
 
         (uint128 tokensOwed0, uint128 tokensOwed1) = (position.tokensOwed0, position.tokensOwed1);
 
-        // trigger an update of the position fees owed and fee growth snapshots if it has any liquidity
-        if (position.liquidity > 0) {
+        // trigger an update of the position fees owed and fee growth snapshots if it has any disponible
+        if (position.disponible > 0) {
             pool.burn(position.tickLower, position.tickUpper, 0);
             (, uint256 feeGrowthInside0LastX128, uint256 feeGrowthInside1LastX128, , ) =
                 pool.positions(PositionKey.compute(address(this), position.tickLower, position.tickUpper));
@@ -334,14 +345,14 @@ contract NonfungiblePositionManager is
             tokensOwed0 += uint128(
                 FullMath.mulDiv(
                     feeGrowthInside0LastX128 - position.feeGrowthInside0LastX128,
-                    position.liquidity,
+                    position.disponible,
                     FixedPoint128.Q128
                 )
             );
             tokensOwed1 += uint128(
                 FullMath.mulDiv(
                     feeGrowthInside1LastX128 - position.feeGrowthInside1LastX128,
-                    position.liquidity,
+                    position.disponible,
                     FixedPoint128.Q128
                 )
             );
@@ -376,7 +387,7 @@ contract NonfungiblePositionManager is
     /// @inheritdoc INonfungiblePositionManager
     function burn(uint256 tokenId) external payable override isAuthorizedForToken(tokenId) {
         Position storage position = _positions[tokenId];
-        require(position.liquidity == 0 && position.tokensOwed0 == 0 && position.tokensOwed1 == 0, 'Not cleared');
+        require(position.disponible == 0 && position.tokensOwed0 == 0 && position.tokensOwed1 == 0, 'Not cleared');
         delete _positions[tokenId];
         _burn(tokenId);
     }

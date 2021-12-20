@@ -1,7 +1,7 @@
-// SPDX-License-Identifier: GPL-2.0-or-later
-pragma solidity =0.7.6;
+// SPDX-License-Identifier: MIT
+pragma solidity =0.8.6;
 
-import '@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol';
+import '@rifcoin/swap/contracts/interfaces/IRifainSwap.sol';
 import './PoolAddress.sol';
 
 /// @notice Provides validation for callbacks from Uniswap V3 Pools
@@ -17,7 +17,7 @@ library CallbackValidation {
         address tokenA,
         address tokenB,
         uint24 fee
-    ) internal view returns (IUniswapV3Pool pool) {
+    ) internal view returns (IRifainSwap pool) {
         return verifyCallback(factory, PoolAddress.getPoolKey(tokenA, tokenB, fee));
     }
 
@@ -28,9 +28,9 @@ library CallbackValidation {
     function verifyCallback(address factory, PoolAddress.PoolKey memory poolKey)
         internal
         view
-        returns (IUniswapV3Pool pool)
+        returns (IRifainSwap pool)
     {
-        pool = IUniswapV3Pool(PoolAddress.computeAddress(factory, poolKey));
+        pool = IRifainSwap(PoolAddress.computeAddress(factory, poolKey));
         require(msg.sender == address(pool));
     }
 }

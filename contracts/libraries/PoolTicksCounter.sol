@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity >=0.6.0;
 
-import '@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol';
+import '@rifcoin/swap/contracts/interfaces/IRifainSwap.sol';
 
 library PoolTicksCounter {
     /// @dev This function counts the number of initialized ticks that would incur a gas cost between tickBefore and tickAfter.
@@ -9,7 +9,7 @@ library PoolTicksCounter {
     /// direction of the swap. If we are swapping upwards (tickAfter > tickBefore) we don't want to count tickBefore but we do
     /// want to count tickAfter. The opposite is true if we are swapping downwards.
     function countInitializedTicksCrossed(
-        IUniswapV3Pool self,
+        IRifainSwap self,
         int24 tickBefore,
         int24 tickAfter
     ) internal view returns (uint32 initializedTicksCrossed) {
@@ -23,10 +23,10 @@ library PoolTicksCounter {
         {
             // Get the key and offset in the tick bitmap of the active tick before and after the swap.
             int16 wordPos = int16((tickBefore / self.tickSpacing()) >> 8);
-            uint8 bitPos = uint8((tickBefore / self.tickSpacing()) % 256);
+            uint8 bitPos = uint8(int8((tickBefore / self.tickSpacing()) % 256));
 
             int16 wordPosAfter = int16((tickAfter / self.tickSpacing()) >> 8);
-            uint8 bitPosAfter = uint8((tickAfter / self.tickSpacing()) % 256);
+            uint8 bitPosAfter = uint8(int8((tickAfter / self.tickSpacing()) % 256));
 
             // In the case where tickAfter is initialized, we only want to count it if we are swapping downwards.
             // If the initializable tick after the swap is initialized, our original tickAfter is a

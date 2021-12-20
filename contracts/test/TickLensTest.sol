@@ -1,8 +1,8 @@
-// SPDX-License-Identifier: GPL-2.0-or-later
-pragma solidity >=0.5.0;
-pragma abicoder v2;
+// SPDX-License-Identifier: MIT
+pragma solidity =0.8.6;
 
-import '@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol';
+
+import '@rifcoin/swap/contracts/interfaces/IRifainSwap.sol';
 import '../lens/TickLens.sol';
 
 /// @title Tick Lens contract

@@ -1,8 +1,8 @@
-// SPDX-License-Identifier: GPL-2.0-or-later
-pragma solidity >=0.5.0;
-pragma abicoder v2;
+// SPDX-License-Identifier: MIT
+pragma solidity =0.8.6;
 
-import '@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol';
+
+import '@rifcoin/swap/contracts/interfaces/IRifainSwap.sol';
 
 import '../interfaces/ITickLens.sol';
 
@@ -16,7 +16,7 @@ contract TickLens is ITickLens {
         returns (PopulatedTick[] memory populatedTicks)
     {
         // fetch bitmap
-        uint256 bitmap = IUniswapV3Pool(pool).tickBitmap(tickBitmapIndex);
+        uint256 bitmap = IRifainSwap(pool).tickBitmap(tickBitmapIndex);
 
         // calculate the number of populated ticks
         uint256 numberOfPopulatedTicks;
@@ -25,12 +25,12 @@ contract TickLens is ITickLens {
         }
 
         // fetch populated tick data
-        int24 tickSpacing = IUniswapV3Pool(pool).tickSpacing();
+        int24 tickSpacing = IRifainSwap(pool).tickSpacing();
         populatedTicks = new PopulatedTick[](numberOfPopulatedTicks);
-        for (uint256 i = 0; i < 256; i++) {
+        for (uint24 i = 0; i < 256; i++) {
             if (bitmap & (1 << i) > 0) {
                 int24 populatedTick = ((int24(tickBitmapIndex) << 8) + int24(i)) * tickSpacing;
-                (uint128 liquidityGross, int128 liquidityNet, , , , , , ) = IUniswapV3Pool(pool).ticks(populatedTick);
+                (uint128 liquidityGross, int128 liquidityNet, , , , , , ) = IRifainSwap(pool).ticks(populatedTick);
                 populatedTicks[--numberOfPopulatedTicks] = PopulatedTick({
                     tick: populatedTick,
                     liquidityNet: liquidityNet,

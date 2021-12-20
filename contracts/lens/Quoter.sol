@@ -1,11 +1,11 @@
-// SPDX-License-Identifier: GPL-2.0-or-later
-pragma solidity =0.7.6;
-pragma abicoder v2;
+// SPDX-License-Identifier: MIT
+pragma solidity =0.8.6;
 
-import '@uniswap/v3-core/contracts/libraries/SafeCast.sol';
-import '@uniswap/v3-core/contracts/libraries/TickMath.sol';
-import '@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol';
-import '@uniswap/v3-core/contracts/interfaces/callback/IUniswapV3SwapCallback.sol';
+
+import '@rifcoin/swap/libraries/SafeCast.sol';
+import '@rifcoin/swap/libraries/TickMath.sol';
+import '@rifcoin/swap/contracts/interfaces/IRifainSwap.sol';
+import '@rifcoin/swap/contracts/interfaces/callback/IRifainSwapSwapCallback.sol';
 
 import '../interfaces/IQuoter.sol';
 import '../base/PeripheryImmutableState.sol';
@@ -17,7 +17,7 @@ import '../libraries/CallbackValidation.sol';
 /// @notice Allows getting the expected amount out or amount in for a given swap without executing the swap
 /// @dev These functions are not gas efficient and should _not_ be called on chain. Instead, optimistically execute
 /// the swap and check the amounts in the callback.
-contract Quoter is IQuoter, IUniswapV3SwapCallback, PeripheryImmutableState {
+contract Quoter is IQuoter, IRifainSwapSwapCallback, PeripheryImmutableState {
     using Path for bytes;
     using SafeCast for uint256;
 
@@ -30,12 +30,12 @@ contract Quoter is IQuoter, IUniswapV3SwapCallback, PeripheryImmutableState {
         address tokenA,
         address tokenB,
         uint24 fee
-    ) private view returns (IUniswapV3Pool) {
-        return IUniswapV3Pool(PoolAddress.computeAddress(factory, PoolAddress.getPoolKey(tokenA, tokenB, fee)));
+    ) private view returns (IRifainSwap) {
+        return IRifainSwap(PoolAddress.computeAddress(factory, PoolAddress.getPoolKey(tokenA, tokenB, fee)));
     }
 
-    /// @inheritdoc IUniswapV3SwapCallback
-    function uniswapV3SwapCallback(
+    /// @inheritdoc IRifainSwapSwapCallback
+    function swapCallback(
         int256 amount0Delta,
         int256 amount1Delta,
         bytes memory path

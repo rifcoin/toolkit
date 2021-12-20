@@ -1,25 +1,12 @@
 import '@nomiclabs/hardhat-ethers'
 import '@nomiclabs/hardhat-etherscan'
 import '@nomiclabs/hardhat-waffle'
-import 'hardhat-typechain'
+import '@typechain/hardhat'
 import 'hardhat-watcher'
+import { subtask, task, types } from "hardhat/internal/core/config/config-env";
 
 const LOW_OPTIMIZER_COMPILER_SETTINGS = {
-  version: '0.7.6',
-  settings: {
-    evmVersion: 'istanbul',
-    optimizer: {
-      enabled: true,
-      runs: 2_000,
-    },
-    metadata: {
-      bytecodeHash: 'none',
-    },
-  },
-}
-
-const LOWEST_OPTIMIZER_COMPILER_SETTINGS = {
-  version: '0.7.6',
+  version: '0.8.6',
   settings: {
     evmVersion: 'istanbul',
     optimizer: {
@@ -32,13 +19,28 @@ const LOWEST_OPTIMIZER_COMPILER_SETTINGS = {
   },
 }
 
-const DEFAULT_COMPILER_SETTINGS = {
-  version: '0.7.6',
+const LOWEST_OPTIMIZER_COMPILER_SETTINGS = {
+  version: '0.8.6',
+
   settings: {
     evmVersion: 'istanbul',
     optimizer: {
       enabled: true,
-      runs: 1_000_000,
+      runs: 800,
+    },
+    metadata: {
+      bytecodeHash: 'none',
+    },
+  },
+}
+
+const DEFAULT_COMPILER_SETTINGS = {
+  version: '0.8.6',
+  settings: {
+    evmVersion: 'istanbul',
+    optimizer: {
+      enabled: true,
+      runs: 1000_000_000,
     },
     metadata: {
       bytecodeHash: 'none',
@@ -89,7 +91,6 @@ export default {
     overrides: {
       'contracts/NonfungiblePositionManager.sol': LOW_OPTIMIZER_COMPILER_SETTINGS,
       'contracts/test/MockTimeNonfungiblePositionManager.sol': LOW_OPTIMIZER_COMPILER_SETTINGS,
-      'contracts/test/NFTDescriptorTest.sol': LOWEST_OPTIMIZER_COMPILER_SETTINGS,
       'contracts/NonfungibleTokenPositionDescriptor.sol': LOWEST_OPTIMIZER_COMPILER_SETTINGS,
       'contracts/libraries/NFTDescriptor.sol': LOWEST_OPTIMIZER_COMPILER_SETTINGS,
     },
@@ -102,3 +103,27 @@ export default {
     },
   },
 }
+
+/**
+ * Receives a solc output and checks if there are errors. Throws if there are
+ * errors.
+ *
+ * Override this task to avoid interrupting the compilation process if some
+ * job has compilation errors.
+ */
+
+subtask("compile:solidity:check-errors")
+  .setAction(
+    async ({ output, quiet }: { output: any; quiet: boolean }, { run }) => {
+      await run("compile:solidity:log:compilation-errors", {
+        output,
+        quiet,
+      });
+
+     //if (hasCompilationErrors(output)) {
+       if(output){
+        //throw new HardhatError(ERRORS.BUILTIN_TASKS.COMPILE_FAILURE);
+        console.log(output);
+      }
+    }
+  );

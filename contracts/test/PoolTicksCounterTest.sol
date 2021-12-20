@@ -1,15 +1,15 @@
-// SPDX-License-Identifier: GPL-2.0-or-later
-import '@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol';
+// SPDX-License-Identifier: MIT
+pragma solidity =0.8.6;
 
-pragma solidity >=0.6.0;
+import '@rifcoin/swap/contracts/interfaces/IRifainSwap.sol';
 
 import '../libraries/PoolTicksCounter.sol';
 
 contract PoolTicksCounterTest {
-    using PoolTicksCounter for IUniswapV3Pool;
+    using PoolTicksCounter for IRifainSwap;
 
     function countInitializedTicksCrossed(
-        IUniswapV3Pool pool,
+        IRifainSwap pool,
         int24 tickBefore,
         int24 tickAfter
     ) external view returns (uint32 initializedTicksCrossed) {
