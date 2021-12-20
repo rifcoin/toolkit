@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity =0.8.6;
 
-
 import '@rifcoin/swap/contracts/interfaces/IRifainSwap.sol';
 import '@rifcoin/lib/contracts/libraries/SafeERC20Namer.sol';
 
@@ -51,17 +50,15 @@ contract NonfungibleTokenPositionDescriptor is INonfungibleTokenPositionDescript
         override
         returns (string memory)
     {
-        
-        (, , address token0, address token1, uint24 fee, int24 tickLower, int24 tickUpper, , , , , ) =
-            positionManager.positions(tokenId);
+        (, , address token0, address token1, uint24 fee, int24 tickLower, int24 tickUpper, , , , , ) = positionManager
+            .positions(tokenId);
 
-        IRifainSwap pool =
-            IRifainSwap(
-                PoolAddress.computeAddress(
-                    positionManager.factory(),
-                    PoolAddress.PoolKey({token0: token0, token1: token1, fee: fee})
-                )
-            );
+        IRifainSwap pool = IRifainSwap(
+            PoolAddress.computeAddress(
+                positionManager.factory(),
+                PoolAddress.PoolKey({token0: token0, token1: token1, fee: fee})
+            )
+        );
 
         bool _flipRatio = flipRatio(token0, token1, ChainId.get());
         address quoteTokenAddress = !_flipRatio ? token1 : token0;

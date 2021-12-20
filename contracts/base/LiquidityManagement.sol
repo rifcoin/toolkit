@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity =0.8.6;
 
-
 import '@rifcoin/swap/contracts/interfaces/IRifainSwapFactory.sol';
 import '@rifcoin/swap/contracts/interfaces/callback/IRifainSwapMintCallback.sol';
 import '@rifcoin/swap/libraries/TickMath.sol';
@@ -57,8 +56,11 @@ abstract contract LiquidityManagement is IRifainSwapMintCallback, PeripheryImmut
             IRifainSwap pool
         )
     {
-        PoolAddress.PoolKey memory poolKey =
-            PoolAddress.PoolKey({token0: params.token0, token1: params.token1, fee: params.fee});
+        PoolAddress.PoolKey memory poolKey = PoolAddress.PoolKey({
+            token0: params.token0,
+            token1: params.token1,
+            fee: params.fee
+        });
 
         pool = IRifainSwap(PoolAddress.computeAddress(factory, poolKey));
 

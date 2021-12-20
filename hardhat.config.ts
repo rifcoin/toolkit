@@ -3,7 +3,7 @@ import '@nomiclabs/hardhat-etherscan'
 import '@nomiclabs/hardhat-waffle'
 import '@typechain/hardhat'
 import 'hardhat-watcher'
-import { subtask, task, types } from "hardhat/internal/core/config/config-env";
+import { subtask, task, types } from 'hardhat/internal/core/config/config-env'
 
 const LOW_OPTIMIZER_COMPILER_SETTINGS = {
   version: '0.8.6',
@@ -112,18 +112,17 @@ export default {
  * job has compilation errors.
  */
 
-subtask("compile:solidity:check-errors")
-  .setAction(
-    async ({ output, quiet }: { output: any; quiet: boolean }, { run }) => {
-      await run("compile:solidity:log:compilation-errors", {
-        output,
-        quiet,
-      });
+subtask('compile:solidity:check-errors').setAction(
+  async ({ output, quiet }: { output: any; quiet: boolean }, { run }) => {
+    await run('compile:solidity:log:compilation-errors', {
+      output,
+      quiet,
+    })
 
-     //if (hasCompilationErrors(output)) {
-       if(output){
-        //throw new HardhatError(ERRORS.BUILTIN_TASKS.COMPILE_FAILURE);
-        console.log(output);
-      }
+    //if (hasCompilationErrors(output)) {
+    if (output) {
+      //throw new HardhatError(ERRORS.BUILTIN_TASKS.COMPILE_FAILURE);
+      console.log(output)
     }
-  );
+  }
+)

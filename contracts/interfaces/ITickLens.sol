@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity =0.8.6;
 
-
 /// @title Tick Lens
 /// @notice Provides functions for fetching chunks of tick data for a pool
 /// @dev This avoids the waterfall of fetching the tick bitmap, parsing the bitmap to know which ticks to fetch, and

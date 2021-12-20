@@ -21,16 +21,8 @@
       },
       "outputSelection": {
         "*": {
-          "*": [
-            "abi",
-            "evm.bytecode",
-            "evm.deployedBytecode",
-            "evm.methodIdentifiers",
-            "metadata"
-          ],
-          "": [
-            "ast"
-          ]
+          "*": ["abi", "evm.bytecode", "evm.deployedBytecode", "evm.methodIdentifiers", "metadata"],
+          "": ["ast"]
         }
       }
     }
@@ -5080,9 +5072,7 @@
         "ast": {
           "absolutePath": "contracts/lens/UniswapInterfaceMulticall.sol",
           "exportedSymbols": {
-            "UniswapInterfaceMulticall": [
-              136
-            ]
+            "UniswapInterfaceMulticall": [136]
           },
           "id": 137,
           "license": "MIT",
@@ -5090,12 +5080,7 @@
           "nodes": [
             {
               "id": 1,
-              "literals": [
-                "solidity",
-                "=",
-                "0.8",
-                ".6"
-              ],
+              "literals": ["solidity", "=", "0.8", ".6"],
               "nodeType": "PragmaDirective",
               "src": "32:23:0"
             },
@@ -5112,9 +5097,7 @@
               },
               "fullyImplemented": true,
               "id": 136,
-              "linearizedBaseContracts": [
-                136
-              ],
+              "linearizedBaseContracts": [136],
               "name": "UniswapInterfaceMulticall",
               "nameLocation": "148:25:0",
               "nodeType": "ContractDefinition",
@@ -5763,11 +5746,7 @@
                           "src": "868:404:0",
                           "statements": [
                             {
-                              "assignments": [
-                                80,
-                                82,
-                                84
-                              ],
+                              "assignments": [80, 82, 84],
                               "declarations": [
                                 {
                                   "constant": false,
@@ -6029,9 +6008,7 @@
                               "src": "882:131:0"
                             },
                             {
-                              "assignments": [
-                                100
-                              ],
+                              "assignments": [100],
                               "declarations": [
                                 {
                                   "constant": false,
@@ -6096,10 +6073,7 @@
                               "src": "1027:33:0"
                             },
                             {
-                              "assignments": [
-                                105,
-                                107
-                              ],
+                              "assignments": [105, 107],
                               "declarations": [
                                 {
                                   "constant": false,
@@ -6216,9 +6190,7 @@
                                   "isLValue": false,
                                   "isPure": false,
                                   "lValueRequested": false,
-                                  "names": [
-                                    "gas"
-                                  ],
+                                  "names": ["gas"],
                                   "nodeType": "FunctionCallOptions",
                                   "options": [
                                     {
@@ -6259,9 +6231,7 @@
                               "src": "1074:71:0"
                             },
                             {
-                              "assignments": [
-                                116
-                              ],
+                              "assignments": [116],
                               "declarations": [
                                 {
                                   "constant": false,
@@ -6551,9 +6521,7 @@
                         },
                         "id": 133,
                         "initializationExpression": {
-                          "assignments": [
-                            69
-                          ],
+                          "assignments": [69],
                           "declarations": [
                             {
                               "constant": false,

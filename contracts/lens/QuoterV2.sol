@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity =0.8.6;
 
-
 import '@rifcoin/swap/libraries/SafeCast.sol';
 import '@rifcoin/swap/libraries/TickMath.sol';
 import '@rifcoin/swap/libraries/TickBitmap.sol';
@@ -47,10 +46,9 @@ contract QuoterV2 is IQuoterV2, IRifainSwapSwapCallback, PeripheryImmutableState
         (address tokenIn, address tokenOut, uint24 fee) = path.decodeFirstPool();
         CallbackValidation.verifyCallback(factory, tokenIn, tokenOut, fee);
 
-        (bool isExactInput, uint256 amountToPay, uint256 amountReceived) =
-            amount0Delta > 0
-                ? (tokenIn < tokenOut, uint256(amount0Delta), uint256(-amount1Delta))
-                : (tokenOut < tokenIn, uint256(amount1Delta), uint256(-amount0Delta));
+        (bool isExactInput, uint256 amountToPay, uint256 amountReceived) = amount0Delta > 0
+            ? (tokenIn < tokenOut, uint256(amount0Delta), uint256(-amount1Delta))
+            : (tokenOut < tokenIn, uint256(amount1Delta), uint256(-amount0Delta));
 
         IRifainSwap pool = getPool(tokenIn, tokenOut, fee);
         (uint160 sqrtPriceX96After, int24 tickAfter, , , , , ) = pool.slot0();
@@ -168,8 +166,12 @@ contract QuoterV2 is IQuoterV2, IRifainSwapSwapCallback, PeripheryImmutableState
             (address tokenIn, address tokenOut, uint24 fee) = path.decodeFirstPool();
 
             // the outputs of prior swaps become the inputs to subsequent ones
-            (uint256 _amountOut, uint160 _sqrtPriceX96After, uint32 _initializedTicksCrossed, uint256 _gasEstimate) =
-                quoteExactInputSingle(
+            (
+                uint256 _amountOut,
+                uint160 _sqrtPriceX96After,
+                uint32 _initializedTicksCrossed,
+                uint256 _gasEstimate
+            ) = quoteExactInputSingle(
                     QuoteExactInputSingleParams({
                         tokenIn: tokenIn,
                         tokenOut: tokenOut,
@@ -245,8 +247,12 @@ contract QuoterV2 is IQuoterV2, IRifainSwapSwapCallback, PeripheryImmutableState
             (address tokenOut, address tokenIn, uint24 fee) = path.decodeFirstPool();
 
             // the inputs of prior swaps become the outputs of subsequent ones
-            (uint256 _amountIn, uint160 _sqrtPriceX96After, uint32 _initializedTicksCrossed, uint256 _gasEstimate) =
-                quoteExactOutputSingle(
+            (
+                uint256 _amountIn,
+                uint160 _sqrtPriceX96After,
+                uint32 _initializedTicksCrossed,
+                uint256 _gasEstimate
+            ) = quoteExactOutputSingle(
                     QuoteExactOutputSingleParams({
                         tokenIn: tokenIn,
                         tokenOut: tokenOut,

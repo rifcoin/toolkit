@@ -24,16 +24,8 @@
       },
       "outputSelection": {
         "*": {
-          "*": [
-            "abi",
-            "evm.bytecode",
-            "evm.deployedBytecode",
-            "evm.methodIdentifiers",
-            "metadata"
-          ],
-          "": [
-            "ast"
-          ]
+          "*": ["abi", "evm.bytecode", "evm.deployedBytecode", "evm.methodIdentifiers", "metadata"],
+          "": ["ast"]
         }
       }
     }
@@ -5810,9 +5802,7 @@
         "ast": {
           "absolutePath": "@rifcoin/swap/libraries/Oracle.sol",
           "exportedSymbols": {
-            "Oracle": [
-              760
-            ]
+            "Oracle": [760]
           },
           "id": 761,
           "license": "MIT",
@@ -5820,12 +5810,7 @@
           "nodes": [
             {
               "id": 1,
-              "literals": [
-                "solidity",
-                "^",
-                "0.8",
-                ".6"
-              ],
+              "literals": ["solidity", "^", "0.8", ".6"],
               "nodeType": "PragmaDirective",
               "src": "32:23:0"
             },
@@ -5842,9 +5827,7 @@
               },
               "fullyImplemented": true,
               "id": 760,
-              "linearizedBaseContracts": [
-                760
-              ],
+              "linearizedBaseContracts": [760],
               "name": "Oracle",
               "nameLocation": "679:6:0",
               "nodeType": "ContractDefinition",
@@ -5976,9 +5959,7 @@
                     "src": "1983:464:0",
                     "statements": [
                       {
-                        "assignments": [
-                          28
-                        ],
+                        "assignments": [28],
                         "declarations": [
                           {
                             "constant": false,
@@ -7218,9 +7199,7 @@
                     "src": "4733:615:0",
                     "statements": [
                       {
-                        "assignments": [
-                          129
-                        ],
+                        "assignments": [129],
                         "declarations": [
                           {
                             "constant": false,
@@ -8334,10 +8313,7 @@
                             "id": 200,
                             "name": "require",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              -18,
-                              -18
-                            ],
+                            "overloadedDeclarations": [-18, -18],
                             "referencedDeclaration": -18,
                             "src": "5869:7:0",
                             "typeDescriptions": {
@@ -8561,9 +8537,7 @@
                         },
                         "id": 230,
                         "initializationExpression": {
-                          "assignments": [
-                            214
-                          ],
+                          "assignments": [214],
                           "declarations": [
                             {
                               "constant": false,
@@ -8999,9 +8973,7 @@
                         }
                       },
                       {
-                        "assignments": [
-                          259
-                        ],
+                        "assignments": [259],
                         "declarations": [
                           {
                             "constant": false,
@@ -9183,9 +9155,7 @@
                         "src": "6936:44:0"
                       },
                       {
-                        "assignments": [
-                          272
-                        ],
+                        "assignments": [272],
                         "declarations": [
                           {
                             "constant": false,
@@ -9564,9 +9534,7 @@
                     "src": "8282:818:0",
                     "statements": [
                       {
-                        "assignments": [
-                          313
-                        ],
+                        "assignments": [313],
                         "declarations": [
                           {
                             "constant": false,
@@ -9693,9 +9661,7 @@
                         "src": "8292:37:0"
                       },
                       {
-                        "assignments": [
-                          322
-                        ],
+                        "assignments": [322],
                         "declarations": [
                           {
                             "constant": false,
@@ -9806,9 +9772,7 @@
                         "src": "8361:31:0"
                       },
                       {
-                        "assignments": [
-                          330
-                        ],
+                        "assignments": [330],
                         "declarations": [
                           {
                             "constant": false,
@@ -10354,9 +10318,7 @@
                               "src": "8752:39:0"
                             },
                             {
-                              "assignments": [
-                                374
-                              ],
+                              "assignments": [374],
                               "declarations": [
                                 {
                                   "constant": false,
@@ -11927,10 +11889,7 @@
                             "id": 492,
                             "name": "require",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              -18,
-                              -18
-                            ],
+                            "overloadedDeclarations": [-18, -18],
                             "referencedDeclaration": -18,
                             "src": "11351:7:0",
                             "typeDescriptions": {
@@ -12461,9 +12420,7 @@
                           "src": "13002:237:0",
                           "statements": [
                             {
-                              "assignments": [
-                                541
-                              ],
+                              "assignments": [541],
                               "declarations": [
                                 {
                                   "constant": false,
@@ -12810,9 +12767,7 @@
                         }
                       },
                       {
-                        "assignments": [
-                          569
-                        ],
+                        "assignments": [569],
                         "declarations": [
                           {
                             "constant": false,
@@ -12889,10 +12844,7 @@
                         "src": "13249:33:0"
                       },
                       {
-                        "assignments": [
-                          576,
-                          579
-                        ],
+                        "assignments": [576, 579],
                         "declarations": [
                           {
                             "constant": false,
@@ -13233,9 +13185,7 @@
                             "src": "13850:770:0",
                             "statements": [
                               {
-                                "assignments": [
-                                  613
-                                ],
+                                "assignments": [613],
                                 "declarations": [
                                   {
                                     "constant": false,
@@ -13342,9 +13292,7 @@
                                 "src": "13899:82:0"
                               },
                               {
-                                "assignments": [
-                                  621
-                                ],
+                                "assignments": [621],
                                 "declarations": [
                                   {
                                     "constant": false,
@@ -14607,10 +14555,7 @@
                             "id": 700,
                             "name": "require",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              -18,
-                              -18
-                            ],
+                            "overloadedDeclarations": [-18, -18],
                             "referencedDeclaration": -18,
                             "src": "15921:7:0",
                             "typeDescriptions": {
@@ -15207,9 +15152,7 @@
                         },
                         "id": 757,
                         "initializationExpression": {
-                          "assignments": [
-                            726
-                          ],
+                          "assignments": [726],
                           "declarations": [
                             {
                               "constant": false,
@@ -15645,12 +15588,8 @@
         "ast": {
           "absolutePath": "contracts/test/MockObservations.sol",
           "exportedSymbols": {
-            "MockObservations": [
-              944
-            ],
-            "Oracle": [
-              760
-            ]
+            "MockObservations": [944],
+            "Oracle": [760]
           },
           "id": 945,
           "license": "MIT",
@@ -15658,12 +15597,7 @@
           "nodes": [
             {
               "id": 762,
-              "literals": [
-                "solidity",
-                "=",
-                "0.8",
-                ".6"
-              ],
+              "literals": ["solidity", "=", "0.8", ".6"],
               "nodeType": "PragmaDirective",
               "src": "32:23:1"
             },
@@ -15686,9 +15620,7 @@
               "contractKind": "contract",
               "fullyImplemented": true,
               "id": 944,
-              "linearizedBaseContracts": [
-                944
-              ],
+              "linearizedBaseContracts": [944],
               "name": "MockObservations",
               "nameLocation": "112:16:1",
               "nodeType": "ContractDefinition",
@@ -16232,9 +16164,7 @@
                         },
                         "id": 839,
                         "initializationExpression": {
-                          "assignments": [
-                            808
-                          ],
+                          "assignments": [808],
                           "declarations": [
                             {
                               "constant": false,
@@ -17258,9 +17188,7 @@
                     "src": "1914:530:1",
                     "statements": [
                       {
-                        "assignments": [
-                          905
-                        ],
+                        "assignments": [905],
                         "declarations": [
                           {
                             "constant": false,

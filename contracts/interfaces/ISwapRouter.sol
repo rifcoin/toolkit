@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity =0.8.6;
 
-
 import '@rifcoin/swap/contracts/interfaces/callback/IRifainSwapSwapCallback.sol';
 
 /// @title Router token swapping functionality

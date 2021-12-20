@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity =0.8.6;
 
-
 import '@rifcoin/swap/contracts/interfaces/IRifainSwap.sol';
 import '@rifcoin/swap/libraries/FixedPoint128.sol';
 import '@rifcoin/swap/libraries/FullMath.sol';
@@ -159,11 +158,10 @@ contract NonfungiblePositionManager is
         (, uint256 feeGrowthInside0LastX128, uint256 feeGrowthInside1LastX128, , ) = pool.positions(positionKey);
 
         // idempotent set
-        uint80 poolId =
-            cachePoolKey(
-                address(pool),
-                PoolAddress.PoolKey({token0: params.token0, token1: params.token1, fee: params.fee})
-            );
+        uint80 poolId = cachePoolKey(
+            address(pool),
+            PoolAddress.PoolKey({token0: params.token0, token1: params.token1, fee: params.fee})
+        );
 
         _positions[tokenId] = Position({
             nonce: 0,
@@ -194,16 +192,11 @@ contract NonfungiblePositionManager is
     // save bytecode by removing implementation of unused method
     function _baseURI() internal view override returns (string memory) {}
 
-    function tokenByIndex(uint256 index) external override  view returns (uint256) {
+    function tokenByIndex(uint256 index) external view override returns (uint256) {}
 
-    }
+    function tokenOfOwnerByIndex(address owner, uint256 index) external view override returns (uint256 tokenId) {}
 
-    function tokenOfOwnerByIndex(address owner, uint256 index) external override view returns (uint256 tokenId) {
-
-    }
-    function totalSupply() external override view returns (uint256) {
-        
-    }
+    function totalSupply() external view override returns (uint256) {}
 
     /// @inheritdoc INonfungiblePositionManager
     function increaseLiquidity(IncreaseLiquidityParams calldata params)
@@ -339,8 +332,9 @@ contract NonfungiblePositionManager is
         // trigger an update of the position fees owed and fee growth snapshots if it has any disponible
         if (position.disponible > 0) {
             pool.burn(position.tickLower, position.tickUpper, 0);
-            (, uint256 feeGrowthInside0LastX128, uint256 feeGrowthInside1LastX128, , ) =
-                pool.positions(PositionKey.compute(address(this), position.tickLower, position.tickUpper));
+            (, uint256 feeGrowthInside0LastX128, uint256 feeGrowthInside1LastX128, , ) = pool.positions(
+                PositionKey.compute(address(this), position.tickLower, position.tickUpper)
+            );
 
             tokensOwed0 += uint128(
                 FullMath.mulDiv(
@@ -362,11 +356,10 @@ contract NonfungiblePositionManager is
         }
 
         // compute the arguments to give to the pool#collect method
-        (uint128 amount0Collect, uint128 amount1Collect) =
-            (
-                params.amount0Max > tokensOwed0 ? tokensOwed0 : params.amount0Max,
-                params.amount1Max > tokensOwed1 ? tokensOwed1 : params.amount1Max
-            );
+        (uint128 amount0Collect, uint128 amount1Collect) = (
+            params.amount0Max > tokensOwed0 ? tokensOwed0 : params.amount0Max,
+            params.amount1Max > tokensOwed1 ? tokensOwed1 : params.amount1Max
+        );
 
         // the actual amounts collected are returned
         (amount0, amount1) = pool.collect(
